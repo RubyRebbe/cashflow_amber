@@ -30,6 +30,7 @@ Amber::Server.configure do
   routes :web do
     resources "/accounts", AccountController
     resources "/items", ItemController
+
     get "/", HomeController, :index
   end
 

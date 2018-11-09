@@ -9,4 +9,4 @@ class Item < Granite::Base
   field description : String
   field typus : String
   field amount : Float32
-end
+end # class Item

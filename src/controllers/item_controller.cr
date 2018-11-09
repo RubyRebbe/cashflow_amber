@@ -1,3 +1,5 @@
+require "../lib/item_list.cr"
+
 class ItemController < ApplicationController
   getter item = Item.new
 
@@ -6,7 +8,21 @@ class ItemController < ApplicationController
   end
 
   def index
-    items = Item.all
+		item_list = ItemList.new
+
+		if params.has_key?( :account_id)
+			item_list.account( params[:account_id] )
+		end
+
+		if params.has_key?( :from_date)
+			item_list.from_date( params[:from_date] )
+		end
+
+		if params.has_key?( :to_date)
+			item_list.to_date( params[:to_date] )
+		end
+
+		items = item_list.items
     render "index.slang"
   end
 

@@ -1,7 +1,5 @@
 require "../spec_helper"
 
-require "../spec_helper"
-
 class HomePageSpec < GarnetSpec::System::Test
 	@@root = "http://localhost:3000/"
 
@@ -11,6 +9,15 @@ class HomePageSpec < GarnetSpec::System::Test
 			e = page.find_element( :tag_name, "h2" )
 			e.text.should eq "Welcome to Amber Framework!"
 	
+			sleep 5
+		end
+
+		it "xcan visit items page" do
+			visit @@root
+	
+			items_link = page.find_element(:link_text, "Items" )
+			items_link.click
+
 			sleep 5
 		end
 	end # describe
