@@ -46,24 +46,21 @@ describe Item do
 		Item.where( :date, :lteq, to_date_s ).map { |i| i.date }.should eq [ item.date ] 
 	end
 
-	it "has a class method Item.filter" do
-		params = { account_id: 1 }
-		item = Item.create( date: "2018-11-1" )
-		items = Item.filter( params)
+	it "has a volatile attribute - balance" do
+		item = Item.create( date: "2018-11-1", account_id: 1 )
+		item.balance = 25.00
+		item.balance.should eq 25.00
 	end
 
-	it "Item.filter takes a params argument" do
-		params = { account_id: 1 }
-		item = Item.create( date: "2018-11-1", account_id: 1 )
-		items = Item.filter( params )
+	it "can compute the sign of the amount as function of transaction type" do
+		item = Item.create( date: "2018-11-1", account_id: 1 , typus: "expense" )
+		item.sign.should eq -1
 	end
 
-	it "when params has none of :account_id, :from_date, :to_date, it returns all the Items in order" do
-		params = { } of Symbol => ( String | Int32 )
-		item = Item.create( date: "2018-11-1", account_id: 1 )
-		items = Item.filter( params )
+	it "can compute the signed amount" do
+		item = Item.create( typus: "expense", amount: 300.00 )
+		item.sign.should eq -1
 
-		items.count.run.should eq 1 # dumb, count should return number of items in the list
-		items.map { |i| i.date }.should eq [ item.date ]
+		item.signed_amount.should eq -300.00
 	end
 end

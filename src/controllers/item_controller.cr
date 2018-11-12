@@ -22,6 +22,20 @@ class ItemController < ApplicationController
 			item_list.to_date( params[:to_date] )
 		end
 
+		if params.has_key?( :balance)
+			items = item_list.items
+			running_balance = params[:balance].to_f64
+
+			items.each { |i|
+				running_balance = running_balance + i.signed_amount
+				i.balance = running_balance 
+			}
+
+			puts "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+			puts "items.balance"
+			puts item_list.items.map { |i| i.balance }
+		end
+
 		items = item_list.items
     render "index.slang"
   end
