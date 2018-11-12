@@ -1,5 +1,50 @@
 require "../lib/item_list.cr"
 
+class ItemWBalance 
+	getter balance
+	setter balance
+
+	def initialize( @item : Item )
+		@balance = 0.0
+	end
+
+	def id
+		@item.id
+	end
+
+	def account
+		@item.account
+	end
+
+	def date
+		@item.date
+	end
+
+	def description
+		@item.description
+	end
+
+	def typus
+		@item.typus
+	end
+
+	def amount
+		@item.amount
+	end
+
+	def signed_amount
+		@item.signed_amount
+	end
+
+	def sign
+		@item.sign
+	end
+
+	def color
+		( @balance < 0.0 ) ? "color:red" : "color:black"
+	end
+end
+
 class ItemController < ApplicationController
   getter item = Item.new
 
@@ -22,21 +67,18 @@ class ItemController < ApplicationController
 			item_list.to_date( params[:to_date] )
 		end
 
+		items = item_list.items
 		if params.has_key?( :balance)
-			items = item_list.items
 			running_balance = params[:balance].to_f64
 
-			items.each { |i|
-				running_balance = running_balance + i.signed_amount
-				i.balance = running_balance 
+			items = item_list.items.map { |i| 
+				ib = ItemWBalance.new( i ) 
+				running_balance = running_balance + ib.signed_amount
+				ib.balance = running_balance
+				ib
 			}
-
-			puts "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-			puts "items.balance"
-			puts item_list.items.map { |i| i.balance }
 		end
 
-		items = item_list.items
     render "index.slang"
   end
 

@@ -1,6 +1,4 @@
 class Item < Granite::Base
-	@balance = 0.0
-
   adapter sqlite
   table_name items
 
@@ -12,19 +10,19 @@ class Item < Granite::Base
   field typus : String
   field amount : Float32
 
-	def balance
-		@balance
-	end
-
-	def balance=( bal)
-		@balance = bal
-	end
-
 	def sign
 		( typus == "income" ) ? 1 : -1
 	end
 
 	def signed_amount
 		sign * amount.not_nil!
+	end
+
+	def balance
+		0.0
+	end
+
+	def color
+		"color:black" 
 	end
 end # class Item

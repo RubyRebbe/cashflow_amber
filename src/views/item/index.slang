@@ -40,6 +40,7 @@
         th Description
         th Typus
         th Amount
+        th Balance
         th Actions
     tbody
       - items.each do |item|
@@ -49,6 +50,7 @@
           td = item.description
           td = item.typus
           td = item.amount
+          td style="#{item.color}" = item.balance
           td
             span
               == link_to("read", "/items/#{item.id}", class: "btn btn-primary btn-sm")
