@@ -1,48 +1,20 @@
 require "../lib/item_list.cr"
+require "../models/item.cr"
 
-class ItemWBalance 
+class ItemWBalance
 	getter balance
 	setter balance
 
-	def initialize( @item : Item )
+	def initialize( item : Item )
+		@item = item
 		@balance = 0.0
-	end
-
-	def id
-		@item.id
-	end
-
-	def account
-		@item.account
-	end
-
-	def date
-		@item.date
-	end
-
-	def description
-		@item.description
-	end
-
-	def typus
-		@item.typus
-	end
-
-	def amount
-		@item.amount
-	end
-
-	def signed_amount
-		@item.signed_amount
-	end
-
-	def sign
-		@item.sign
 	end
 
 	def color
 		( @balance < 0.0 ) ? "color:red" : "color:black"
 	end
+	
+	forward_missing_to( @item)
 end
 
 class ItemController < ApplicationController

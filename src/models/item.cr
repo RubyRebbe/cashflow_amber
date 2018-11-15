@@ -22,6 +22,7 @@ class Item < Granite::Base
 		0.0
 	end
 
+	# need for type union reasons
 	def color
 		"color:black" 
 	end
